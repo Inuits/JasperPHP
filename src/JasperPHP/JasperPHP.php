@@ -128,6 +128,9 @@ class JasperPHP
             if ( isset($db_connection['db_sid']) && !empty($db_connection['db_sid']) )
                 $command .= ' --db-sid ' . escapeshellarg($db_connection['db_sid']);
 
+            if (isset($db_connection['xml_xpath']) && !empty($db_connection['xml_xpath']))
+                $command .= ' --xml-xpath ' . $db_connection['xml_xpath'];
+
         }
 
         $this->redirect_output  = $redirect_output;
