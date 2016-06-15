@@ -44,10 +44,10 @@ class JasperPHP
 
         $command .= " compile ";
 
-        $command .= $input_file;
+        $command .= escapeshellarg($input_file);
 
         if( $output_file !== false )
-            $command .= " -o " . $output_file;
+            $command .= " -o " . escapeshellarg($output_file);
 
         $this->redirect_output  = $redirect_output;
         $this->background       = $background;
@@ -77,10 +77,10 @@ class JasperPHP
 
         $command .= " process ";
 
-        $command .= $input_file;
+        $command .= escapeshellarg($input_file);
 
         if( $output_file !== false )
-            $command .= " -o " . $output_file;
+            $command .= " -o " . escapeshellarg($output_file);
 
         if( is_array($format) )
             $command .= " -f " . join(" ", $format);
@@ -88,45 +88,45 @@ class JasperPHP
             $command .= " -f " . $format;
 
         // Resources dir
-        $command .= " -r " . $this->resource_directory;
+        $command .= " -r " . escapeshellarg($this->resource_directory);
 
         if( count($parameters) > 0 )
         {
             $command .= " -P";
             foreach ($parameters as $key => $value)
             {
-                $command .= " " . $key . "=" . $value;
+                $command .= " " . $key . "=" . escapeshellarg($value);
             }
         }
 
         if( count($db_connection) > 0 )
         {
-            $command .= " -t " . $db_connection['driver'];
-            $command .= " -u " . $db_connection['username'];
+            $command .= " -t " . escapeshellarg($db_connection['driver']);
+            $command .= " -u " . escapeshellarg($db_connection['username']);
 
             if( isset($db_connection['password']) && !empty($db_connection['password']) )
-                $command .= " -p " . $db_connection['password'];
+                $command .= " -p " . escapeshellarg($db_connection['password']);
 
             if( isset($db_connection['host']) && !empty($db_connection['host']) )
-                $command .= " -H " . $db_connection['host'];
+                $command .= " -H " . escapeshellarg($db_connection['host']);
 
             if( isset($db_connection['database']) && !empty($db_connection['database']) )
-                $command .= " -n " . $db_connection['database'];
+                $command .= " -n " . escapeshellarg($db_connection['database']);
 
             if( isset($db_connection['port']) && !empty($db_connection['port']) )
-                $command .= " --db-port " . $db_connection['port'];
+                $command .= " --db-port " . escapeshellarg($db_connection['port']);
 
             if( isset($db_connection['jdbc_driver']) && !empty($db_connection['jdbc_driver']) )
-                $command .= " --db-driver " . $db_connection['jdbc_driver'];
+                $command .= " --db-driver " . escapeshellarg($db_connection['jdbc_driver']);
 
             if( isset($db_connection['jdbc_url']) && !empty($db_connection['jdbc_url']) )
-                $command .= " --db-url " . $db_connection['jdbc_url'];
+                $command .= " --db-url " . escapeshellarg($db_connection['jdbc_url']);
 
             if ( isset($db_connection['jdbc_dir']) && !empty($db_connection['jdbc_dir']) ) 
-                $command .= ' --jdbc-dir ' . $db_connection['jdbc_dir'];
+                $command .= ' --jdbc-dir ' . escapeshellarg($db_connection['jdbc_dir']);
 
             if ( isset($db_connection['db_sid']) && !empty($db_connection['db_sid']) )
-                $command .= ' --db-sid ' . $db_connection['db_sid'];
+                $command .= ' --db-sid ' . escapeshellarg($db_connection['db_sid']);
 
         }
 
