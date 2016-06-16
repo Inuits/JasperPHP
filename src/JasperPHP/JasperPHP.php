@@ -51,7 +51,7 @@ class JasperPHP
 
         $this->redirect_output  = $redirect_output;
         $this->background       = $background;
-        $this->the_command      = escapeshellcmd($command);
+        $this->the_command      = $command;
 
         return $this;
     }
@@ -102,7 +102,9 @@ class JasperPHP
         if( count($db_connection) > 0 )
         {
             $command .= " -t " . escapeshellarg($db_connection['driver']);
-            $command .= " -u " . escapeshellarg($db_connection['username']);
+
+            if( isset($db_connection['username']) && !empty($db_connection['username']) )
+                $command .= " -u " . escapeshellarg($db_connection['username']);
 
             if( isset($db_connection['password']) && !empty($db_connection['password']) )
                 $command .= " -p " . escapeshellarg($db_connection['password']);
@@ -128,6 +130,24 @@ class JasperPHP
             if ( isset($db_connection['db_sid']) && !empty($db_connection['db_sid']) )
                 $command .= ' --db-sid ' . escapeshellarg($db_connection['db_sid']);
 
+            if (isset($db_connection['data_file']) && !empty($db_connection['data_file']))
+                $command .= ' --data-file ' . escapeshellarg($db_connection['data_file']);
+
+            if (isset($db_connection['first_row']) && !empty($db_connection['first_row']))
+                $command .= ' --csv-first-row ';
+
+            if (isset($db_connection['csv_columns']) && !empty($db_connection['csv_columns']))
+                $command .= ' --csv-columns ' . escapeshellarg($db_connection['csv_columns']);
+
+            if (isset($db_connection['csv_record_del']) && !empty($db_connection['csv_record_del']))
+                $command .= ' --csv-record-del ' . escapeshellarg($db_connection['csv_record_del']);
+
+            if (isset($db_connection['csv_field_del']) && !empty($db_connection['csv_field_del']))
+                $command .= ' --csv-field-del ' . escapeshellarg($db_connection['csv_field_del']);
+
+            if (isset($db_connection['csv_charset']) && !empty($db_connection['csv_charset']))
+                $command .= ' --csv-charset ' . escapeshellarg($db_connection['csv_charset']);
+
             if (isset($db_connection['xml_xpath']) && !empty($db_connection['xml_xpath']))
                 $command .= ' --xml-xpath ' . escapeshellarg($db_connection['xml_xpath']);
 
@@ -135,7 +155,7 @@ class JasperPHP
 
         $this->redirect_output  = $redirect_output;
         $this->background       = $background;
-        $this->the_command      = escapeshellcmd($command);
+        $this->the_command      = $command;
 
         return $this;
     }
