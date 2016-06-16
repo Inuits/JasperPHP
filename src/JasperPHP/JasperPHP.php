@@ -129,7 +129,7 @@ class JasperPHP
                 $command .= ' --db-sid ' . escapeshellarg($db_connection['db_sid']);
 
             if (isset($db_connection['xml_xpath']) && !empty($db_connection['xml_xpath']))
-                $command .= ' --xml-xpath ' . $db_connection['xml_xpath'];
+                $command .= ' --xml-xpath ' . escapeshellarg($db_connection['xml_xpath']);
 
         }
 
